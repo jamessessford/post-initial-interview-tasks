@@ -1,66 +1,98 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Post Initial Interview Tasks
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+As part of the interview process, we'd like you to attempt one of the following tasks.
 
-## About Laravel
+Although it can't be monitored by us, we'd like you to spend no longer than 90 minutes on the task you choose.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The goal is to assess how you percieve the task and attempt it, and to allow us to see the kind of code that you produce, you are not marked down for not finishing the task in this timefame.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+A sample project for you to start from is available at [GitHub](https://github.com/jamessessford/post-initial-interview-tasks).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+To get started, clone the project and once you've completed the 90 minutes, open a Pull Request to the project with your changes.
 
-## Learning Laravel
+The sample project is a [Laravel](https://laravel.com) Skeleton application with [Breeze](https://laravel.com/docs/10.x/starter-kits#laravel-breeze) installed as well as a seeder to fill the users table.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```Users``` are seperated into the following types:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    Admin
+    Staff
+    Developer
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Complaints
 
-## Laravel Sponsors
+A system to record and view complaints received by Preferred Management.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+A ```Complaint``` can fall into either of the following categories:
 
-### Premium Partners
+    Complaint
+    Dissatisfaction
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+A ```Complaint``` can be in one the following statuses:
 
-## Contributing
+    Not acknowledged
+    Pending investigation
+    Under investigation
+    Resolved & justified
+    Resolved & unjustified
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+A ```Complaint``` status should only be able to move in the following transitions:
 
-## Code of Conduct
+    Not acknowledged -> Pending investigation
+    Pending investigation -> Under Investigation
+    Under investigation -> Resolved & justified
+    Under investigation -> Resolved & unjustified
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+A ```Complaint``` status can be updated by any ```User``` until it's under investigation but can only only be updated after that point by an ```Admin```.
 
-## Security Vulnerabilities
+A ```Complaint``` can be created by any ```User```.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+A ```Complaint``` should be made up of the following:
 
-## License
+    Date of complaint
+    User logging the complaint
+    A complaint summary
+    Full complaint body
+    Complaint status
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+A ```Complaint``` should be able to have ```Notes``` attached to it by any ```Staff``` or ```Admin``` at any point in it's lifecycle.
+
+The ```Notes``` should also contain the user that has logged the note.
+
+## Kanban
+
+A system to record work tasks for the Preferred Management development team.
+
+A ```Task``` can fall into either of the following categories:
+
+    Bug
+    Feature
+
+A ```Task``` can have the following statuses:
+
+    Not acknowledged
+    Approved
+    In progress
+    In testing
+    Complete
+
+A ```Task``` status should only be able to move in the following transitions:
+
+    Not acknowledged -> Approved
+    Approved -> In progress
+    In progress -> In testing
+    In testing -> In progress
+    In testing -> Complete
+
+A ```Task``` status can be updated by any ```Developer``` but can only be marked as Complete by an ```Admin```.
+
+A ```Task``` should be made up of the following:
+
+    User logging the task
+    Task details
+    Due date
+    Hours required
+    Developer assigned to the task
+
+A ```Task``` should be able to have ```Notes``` attached to it by any ```User``` type at any point in it's lifecycle.
+
+The ```Notes``` should also contain the user that has logged the note.
