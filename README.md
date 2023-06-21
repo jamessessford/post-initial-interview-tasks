@@ -12,6 +12,8 @@ To get started, clone the project and once you've completed the 90 minutes, open
 
 The sample project is a [Laravel](https://laravel.com) Skeleton application with [Breeze](https://laravel.com/docs/10.x/starter-kits#laravel-breeze) installed as well as a seeder to fill the users table.
 
+If you have to change anything in the ```.env``` file, please remember to copy the variables back into ```.env.example``` and commit them.
+
 ```Users``` are seperated into the following types:
 
     Admin

@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Admin;
+use App\Models\Developer;
+use App\Models\Staff;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -35,6 +38,36 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Set the User type to admin
+     */
+    public function admin()
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => Admin::class,
+        ]);
+    }
+
+    /**
+     * Set the User type to developer
+     */
+    public function developer()
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => Developer::class,
+        ]);
+    }
+
+    /**
+     * Set the User type to staff
+     */
+    public function staff()
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => Staff::class,
         ]);
     }
 }
