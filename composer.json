@@ -11,6 +11,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "mediconesystems/livewire-datatables": "^0.10.1",
+        "protonemedia/laravel-form-components": "^3.6",
         "tightenco/parental": "^1.3"
     },
     "require-dev": {
