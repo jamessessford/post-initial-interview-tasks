@@ -9,7 +9,7 @@ class Complaint extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['summary', 'content', 'status'];
 
     public function user() {
         return $this->belongsTo(User::class);
