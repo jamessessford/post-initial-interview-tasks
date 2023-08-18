@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\NoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+
+    //Complaints
+    Route::prefix('complaints')->group(function (){
+        Route::get('/', [ComplaintController::class, 'index']);
+        Route::get('/${id}', [ComplaintController::class, 'show']);
+        Route::put('/${id?}', [ComplaintController::class, 'upsert']);
+        Route::delete('/{id}', [ComplaintController::class, 'destroy']);
+    });
+
+    Route::prefix('notes')->group(function (){
+        Route::put('/${id?}', [NoteController::class, 'upsert']);
+        Route::delete('/{id}', [NoteController::class, 'destroy']);
+    });
 });
