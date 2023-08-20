@@ -43,4 +43,30 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // set the ability of a user to create and update complaints
+    protected $canCreateComplaint = true;
+    protected $canUpdateUnresolvedComplaint = true;
+    protected $canUpdateResolvedComplaint = false;
+    protected $canUpdateNotes = false;
+
+    public function getCanCreateComplaint() : bool
+    {
+        return $this->canCreateComplaint;
+    }
+
+    public function getCanUpdateUnresolvedComplaint() : bool
+    {
+        return $this->canUpdateUnresolvedComplaint;
+    }
+
+    public function getCanUpdateResolvedComplaint() : bool
+    {
+        return $this->canUpdateResolvedComplaint;
+    }
+
+    public function getCanUpdateNotes() : bool
+    {
+        return $this->canUpdateNotes;
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Complaints;
 use App\Http\Controllers\ProfileController;
+use App\Http\Requests\Complaints\SubmitComplaintRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// redirect the user to the dashboard allowing breeze to redirect to the login page if required
+Route::redirect('/', '/dashboard')->middleware(['auth', 'verified'])->name('home');
+
+// display the complain logging page
+Route::get('/logcomplaints', function(){
+    return view('complaints.logcomplaint');
+})->middleware(['auth', 'verified'])->name('logcomplaint');
+
+Route::post('/submit', [Complaints::class, 'submitComplaint'])->middleware(['auth', 'verified'])->name('submitcomplaint');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
