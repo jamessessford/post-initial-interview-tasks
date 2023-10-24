@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->admin()->create();
         \App\Models\User::factory(10)->developer()->create();
         \App\Models\User::factory(10)->staff()->create();
+
+        \App\Models\Complaint::factory(10)->create();
     }
 }
