@@ -7,6 +7,11 @@
 
         <div class="max-w-md mx-auto">
             <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-600">Logged by:</label>
+                <p class="form-input">{{ optional($complaint->user)->name ?? 'Unknown' }}</p>
+            </div>
+            
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-600">Date:</label>
                 <p class="form-input">{{ $complaint->date }}</p>
             </div>
@@ -32,12 +37,15 @@
             </div>
         </div>
         <div class="container mx-auto p-4 mt-4">
+            @can('edit-complaint', $complaint)
             <a href="{{ route('complaints.edit', ['complaint' => $complaint->id]) }}" class="btn btn-primary text-indigo-600 hover:underline">Edit Complaint</a>
+            @endcan
         </div>
         <div class="container mx-auto p-4 mt-4">
+            @can('add-note', $complaint)
             <a href="{{ route('complaints.notes.create', ['complaint' => $complaint->id]) }}" class="btn btn-primary text-indigo-600 hover:underline">Add Note</a>
+            @endcan
         </div>
-
     </main>
 
     <div class="container mx-auto p-4 mt-4">
@@ -55,6 +63,5 @@
             </ul>
         @endif
     </div>
-
 </div>
 @endsection

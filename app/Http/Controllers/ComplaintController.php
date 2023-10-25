@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Complaint;
 use App\Models\Note;
+use App\Models\User;
 
 class ComplaintController extends Controller
 {
@@ -29,7 +30,7 @@ class ComplaintController extends Controller
             'user_id' => auth()->user()->id,
             'summary' => $request->input('summary'),
             'full_text' => $request->input('full_text'),
-            'status' => 'not_acknowledged', // Updated status value
+            'status' => 'not_acknowledged',
             'complaint_type' => $request->input('complaint_type'),
         ]);
 
@@ -72,6 +73,11 @@ class ComplaintController extends Controller
                 ->with('error', 'Complaint cannot be updated as it is "Under investigation.');
         }
     }
+
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
     
     public function createNote(Complaint $complaint)
     {
@@ -104,7 +110,7 @@ class ComplaintController extends Controller
 
     public function allComplaints()
     {
-        $complaints = Complaint::all();
+        $complaints = Complaint::with('user')->get();
 
         return view('complaints.all', compact('complaints'));
     }

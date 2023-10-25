@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto py-8">
-        <h2 class="text-3xl font-semibold mb-4">All Complaints</h2>
+        <h2 class="text-3xl font-semibold mb-4 text-white">All Complaints</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($complaints as $complaint)

@@ -11,6 +11,11 @@
             @method('PUT')
 
             <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-600">Logged by:</label>
+                <p class="form-input">{{ optional($complaint->user)->name ?? 'Unknown' }}</p>
+            </div>
+
+            <div class="mb-4">
                 <label for="date" class="block text-sm font-medium text-gray-600">Date:</label>
                 <input type="date" name="date" id="date" class="form-input w-full" value="{{ $complaint->date }}" required>
             </div>
