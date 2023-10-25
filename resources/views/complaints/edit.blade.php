@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-
     <main class="container mx-auto p-4">
         <h2 class="text-3xl font-semibold mb-4 text-white">Edit Complaint</h2>
 
@@ -21,7 +20,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="summary" class="block text-sm font-medium text-gray-600">Summary:</label>
+                <label for "summary" class="block text-sm font-medium text-gray-600">Summary:</label>
                 <input type="text" name="summary" id="summary" class="form-input w-full" value="{{ $complaint->summary }}" required>
             </div>
 
@@ -33,14 +32,21 @@
             <div class="mb-4">
                 <label for="status" class="block text-sm font-medium text-gray-600">Status:</label>
                 <select name="status" id="status" class="form-select w-full" required>
-                    <option value="not_acknowledged" {{ $complaint->status === 'not_acknowledged' ? 'selected' : '' }}>Not Acknowledged</option>
-                    <option value="pending_investigation" {{ $complaint->status === 'pending_investigation' ? 'selected' : '' }}>Pending Investigation</option>
-                    <option value="under_investigation" {{ $complaint->status === 'under_investigation' ? 'selected' : '' }}>Under Investigation</option>
-                    <option value="resolved_justified" {{ $complaint->status === 'resolved_justified' ? 'selected' : '' }}>Resolved Justified</option>
-                    <option value="resolved_unjustified" {{ $complaint->status === 'resolved_unjustified' ? 'selected' : '' }}>Resolved Unjustified</option>
+                    @if ($complaint->status === 'not_acknowledged')
+                        <option value="not_acknowledged" {{ $complaint->status === 'not_acknowledged' ? 'selected' : '' }}>Not Acknowledged</option>
+                    @endif
+                    @if (in_array($complaint->status, ['not_acknowledged', 'pending_investigation']))
+                        <option value="pending_investigation" {{ $complaint->status === 'pending_investigation' ? 'selected' : '' }}>Pending Investigation</option>
+                    @endif
+                    @if (in_array($complaint->status, ['pending_investigation', 'under_investigation']))
+                        <option value="under_investigation" {{ $complaint->status === 'under_investigation' ? 'selected' : '' }}>Under Investigation</option>
+                    @endif
+                    @if (in_array($complaint->status, ['under_investigation', 'resolved_justified', 'resolved_unjustified']))
+                        <option value="resolved_justified" {{ $complaint->status === 'resolved_justified' ? 'selected' : '' }}>Resolved & Justified</option>
+                        <option value="resolved_unjustified" {{ $complaint->status === 'resolved_unjustified' ? 'selected' : '' }}>Resolved & Unjustified</option>
+                    @endif
                 </select>
             </div>
-
 
             <div class="mb-4">
                 <label for="complaint_type" class="block text-sm font-medium text-gray-600">Complaint Type:</label>

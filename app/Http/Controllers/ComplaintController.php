@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Complaint;
 use App\Models\Note;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class ComplaintController extends Controller
 {
@@ -47,38 +48,43 @@ class ComplaintController extends Controller
 
     public function update(Request $request, Complaint $complaint)
     {
+        // Define the allowed status transitions
+        $statusTransitions = [
+            'not_acknowledged' => 'pending_investigation',
+            'pending_investigation' => 'under_investigation',
+            'under_investigation' => ['resolved_justified', 'resolved_unjustified'],
+            'resolved_justified' => 'final',
+            'resolved_unjustified' => 'final',
+        ];
+
         // Validate the request
         $request->validate([
             'date' => 'required|date',
             'summary' => 'required|max:255',
             'full_text' => 'required',
             'complaint_type' => 'required|in:complaint,dissatisfaction',
-            'status' => 'required|in:not_acknowledged,pending_investigation,under_investigation,resolved_&_justified,resolved_&_unjustified',
+            'status' => ['required', Rule::in(array_keys($statusTransitions))],
         ]);
-    
-        // Update the complaint if it's not "Under investigation"
-        if ($complaint->status !== 'under_investigation') {
-            $complaint->update([
-                'date' => $request->input('date'),
-                'summary' => $request->input('summary'),
-                'full_text' => $request->input('full_text'),
-                'complaint_type' => $request->input('complaint_type'),
-                'status' => $request->input('status'), // Update the status field
-            ]);
-    
+
+        // Ensure the new status follows the defined order
+        if (!$this->isValidStatusTransition($complaint->status, $request->input('status'), $statusTransitions)) {
             return redirect()->route('complaints.show', ['complaint' => $complaint->id])
-                ->with('success', 'Complaint updated successfully.');
-        } else {
-            return redirect()->route('complaints.show', ['complaint' => $complaint->id])
-                ->with('error', 'Complaint cannot be updated as it is "Under investigation.');
+                ->with('error', 'Invalid status transition.');
         }
+
+        // Update the complaint
+        $complaint->update([
+            'date' => $request->input('date'),
+            'summary' => $request->input('summary'),
+            'full_text' => $request->input('full_text'),
+            'complaint_type' => $request->input('complaint_type'),
+            'status' => $request->input('status'),
+        ]);
+
+        return redirect()->route('complaints.show', ['complaint' => $complaint->id])
+            ->with('success', 'Complaint updated successfully.');
     }
 
-    public function user()
-{
-    return $this->belongsTo(User::class);
-}
-    
     public function createNote(Complaint $complaint)
     {
         return view('notes.create', compact('complaint'));
@@ -91,7 +97,7 @@ class ComplaintController extends Controller
         ]);
 
         $note = new Note([
-            'complaint_id' => $complaint->id, // Associate the note with the complaint
+            'complaint_id' => $complaint->id,
             'user_id' => auth()->user()->id,
             'content' => $request->input('content'),
         ]);
@@ -113,5 +119,19 @@ class ComplaintController extends Controller
         $complaints = Complaint::with('user')->get();
 
         return view('complaints.all', compact('complaints'));
+    }
+
+    private function isValidStatusTransition($currentStatus, $newStatus, $statusTransitions)
+    {
+        if (!array_key_exists($currentStatus, $statusTransitions)) {
+            return false;
+        }
+
+        $allowedTransitions = $statusTransitions[$currentStatus];
+        if (is_array($allowedTransitions)) {
+            return in_array($newStatus, $allowedTransitions);
+        } else {
+            return $newStatus === $allowedTransitions;
+        }
     }
 }

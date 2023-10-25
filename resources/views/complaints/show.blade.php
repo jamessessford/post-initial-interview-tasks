@@ -28,7 +28,15 @@
 
             <div class="mb-4">
                 <label for="status" class="block text-sm font-medium text-gray-600">Status:</label>
-                <p class="form-input">{{ ucwords(str_replace('_', ' ', $complaint->status)) }}</p>
+                <p class="form-input">
+                    @if ($complaint->status === 'resolved_justified')
+                    Resolved & Justified
+                @elseif ($complaint->status === 'resolved_unjustified')
+                    Resolved & Unjustified
+                @else
+                    {{ ucwords(str_replace('_', ' ', $complaint->status)) }}
+                @endif
+                </p>
             </div>
 
             <div class="mb-4">
