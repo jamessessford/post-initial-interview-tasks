@@ -111,6 +111,16 @@ class TasksController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        // 
+        // @see: "A Task status should only be able to move in the following transitions:"
+        if (! ($request->task_status_id >= $task->task_status_id))
+        {
+            return back()->withErrors([
+                'task_status_id' => 'Can not change status to a prior stage.',
+            ]);
+        }
+
+        Task::update($request);
+
+        return $this->edit($task->fresh());
     }
 }
