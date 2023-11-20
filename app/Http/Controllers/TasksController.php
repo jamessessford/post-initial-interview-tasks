@@ -73,7 +73,7 @@ class TasksController extends Controller
      */
     public function show(Task $task)
     {
-        return view('tasks.edit', [
+        return view('tasks.show', [
             'task' => $task,
             'notes' => $task->notes,
         ]);
