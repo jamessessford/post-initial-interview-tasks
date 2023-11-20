@@ -16,7 +16,11 @@ class TasksController extends Controller
      */
     public function index()
     {
-        // 
+        $tasks = Task::paginate(25);
+
+        return view('tasks.index', [
+            'tasks' => $tasks,
+        ]);
     }
 
     /**
@@ -26,7 +30,18 @@ class TasksController extends Controller
      */
     public function create()
     {
-        // 
+        $developers = Developer::all();
+        $task_statuses = TaskStatus::all();
+        $types = [
+            \App\Models\Bug::class,
+            \App\Models\Feature::class,
+        ];
+
+        return view('tasks.create', [
+            'developers' => $developers,
+            'task_statuses' => $task_statuses,
+            'types' => $types,
+        ]);
     }
 
     /**
@@ -37,7 +52,17 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        // 
+        $data = [
+            ...$request->all(),
+            'user_id' => $request->user()->id,
+        ];
+
+        $task = Task::create($data);
+
+        return view('tasks.edit', [
+            'task' => $task,
+            'notes' => $task->notes,
+        ]);
     }
 
     /**
@@ -48,7 +73,10 @@ class TasksController extends Controller
      */
     public function show(Task $task)
     {
-        // 
+        return view('tasks.edit', [
+            'task' => $task,
+            'notes' => $task->notes,
+        ]);
     }
 
     /**
@@ -59,7 +87,19 @@ class TasksController extends Controller
      */
     public function edit(Task $task)
     {
-        // 
+        $developers = Developer::all();
+        $task_statuses = TaskStatus::all();
+        $types = [
+            \App\Models\Bug::class,
+            \App\Models\Feature::class,
+        ];
+
+        return view('tasks.edit', [
+            'developers' => $developers,
+            'task' => $task,
+            'task_statuses' => $task_statuses,
+            'types' => $types,
+        ]);
     }
 
     /**
